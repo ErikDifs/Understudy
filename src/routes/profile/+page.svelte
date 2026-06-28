@@ -74,12 +74,32 @@
 </script>
 
 <div class="mx-auto flex h-dvh max-w-2xl flex-col px-4 py-6">
-	<h1 class="mb-4 text-xl font-semibold">Intake</h1>
+	<h1 class="mb-4 text-xl font-semibold">Profile</h1>
+
+	{#if data.profile}
+		<div class="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-4">
+			<div class="mb-1 flex items-center justify-between">
+				<span class="text-xs font-medium uppercase tracking-wide text-gray-400">
+					What your Understudy knows about you
+				</span>
+				<span class="text-xs text-gray-400">
+					Updated {new Date(data.profile.updatedAt).toLocaleDateString()}
+				</span>
+			</div>
+			<p class="text-sm leading-relaxed text-gray-700 whitespace-pre-wrap">
+				{data.profile.synthesizedDocument}
+			</p>
+		</div>
+	{/if}
 
 	<div bind:this={listEl} class="min-h-0 flex-1 overflow-y-auto space-y-3 pb-4">
 		{#if messages.length === 0 && streamingContent === null}
 			<p class="text-sm text-gray-400">
-				Start the conversation — your Understudy will ask the questions.
+				{#if data.profile}
+					Keep going — the more you share, the better your Understudy represents you.
+				{:else}
+					Start the conversation — your Understudy will ask the questions. Your Profile builds as you talk.
+				{/if}
 			</p>
 		{/if}
 		{#each messages as message (message)}

@@ -39,6 +39,12 @@ export const intakeMessages = pgTable('intake_messages', {
 	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
 });
 
+export const profiles = pgTable('profiles', {
+	id: serial('id').primaryKey(),
+	synthesizedDocument: text('synthesized_document').notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+});
+
 export const summaries = pgTable('summaries', {
 	id: serial('id').primaryKey(),
 	meetingId: integer('meeting_id')

@@ -4,6 +4,7 @@ import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 import { db } from '$lib/server/db';
 import { intakeMessages } from '$lib/server/db/schema';
+import { synthesizeProfile } from '$lib/server/synthesize';
 import type { RequestHandler } from './$types';
 
 const INTAKE_SYSTEM_PROMPT = `You are the user's Understudy — their AI representative. Your role in this conversation is to learn enough about who they are to faithfully represent them in meetings.
@@ -60,6 +61,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				}
 
 				await db.insert(intakeMessages).values({ role: 'assistant', content: fullText });
+				synthesizeProfile().catch(console.error);
 			} finally {
 				controller.close();
 			}
