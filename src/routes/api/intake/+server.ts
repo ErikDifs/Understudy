@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { asc } from 'drizzle-orm';
-import { json, error } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 import { db } from '$lib/server/db';
 import { intakeMessages } from '$lib/server/db/schema';
@@ -35,19 +35,41 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
 
-	const response = await client.messages.create({
+	const stream = client.messages.stream({
 		model: 'claude-sonnet-4-6',
 		max_tokens: 1024,
 		system: INTAKE_SYSTEM_PROMPT,
 		messages: history.map((m) => ({ role: m.role, content: m.content }))
 	});
 
-	const assistantContent = response.content
-		.filter((block) => block.type === 'text')
-		.map((block) => block.text)
-		.join('\n');
+	const encoder = new TextEncoder();
 
-	await db.insert(intakeMessages).values({ role: 'assistant', content: assistantContent });
+	const readable = new ReadableStream({
+		async start(controller) {
+			let fullText = '';
 
-	return json({ message: assistantContent });
+			try {
+				for await (const event of stream) {
+					if (
+						event.type === 'content_block_delta' &&
+						event.delta.type === 'text_delta'
+					) {
+						fullText += event.delta.text;
+						controller.enqueue(encoder.encode(event.delta.text));
+					}
+				}
+
+				await db.insert(intakeMessages).values({ role: 'assistant', content: fullText });
+			} finally {
+				controller.close();
+			}
+		},
+		cancel() {
+			stream.abort();
+		}
+	});
+
+	return new Response(readable, {
+		headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+	});
 };

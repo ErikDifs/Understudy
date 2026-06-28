@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -6,10 +7,13 @@
 	type Message = { role: 'user' | 'assistant'; content: string };
 
 	let messages: Message[] = $state(
-		data.messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+		untrack(() =>
+			data.messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+		)
 	);
 	let input = $state('');
 	let pending = $state(false);
+	let streamingContent: string | null = $state(null);
 	let listEl: HTMLElement | undefined = $state();
 
 	function scrollToBottom() {
@@ -18,6 +22,7 @@
 
 	$effect(() => {
 		messages;
+		streamingContent;
 		setTimeout(scrollToBottom, 0);
 	});
 
@@ -27,6 +32,7 @@
 
 		input = '';
 		pending = true;
+		streamingContent = '';
 		messages = [...messages, { role: 'user', content: text }];
 
 		try {
@@ -36,16 +42,25 @@
 				body: JSON.stringify({ message: text })
 			});
 
-			if (!res.ok) throw new Error('Request failed');
+			if (!res.ok || !res.body) throw new Error('Request failed');
 
-			const data = await res.json();
-			messages = [...messages, { role: 'assistant', content: data.message }];
+			const reader = res.body.getReader();
+			const decoder = new TextDecoder();
+
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) break;
+				streamingContent += decoder.decode(value, { stream: true });
+			}
+
+			messages = [...messages, { role: 'assistant', content: streamingContent ?? '' }];
 		} catch {
 			messages = [
 				...messages,
 				{ role: 'assistant', content: 'Something went wrong. Please try again.' }
 			];
 		} finally {
+			streamingContent = null;
 			pending = false;
 		}
 	}
@@ -62,7 +77,7 @@
 	<h1 class="mb-4 text-xl font-semibold">Intake</h1>
 
 	<div bind:this={listEl} class="min-h-0 flex-1 overflow-y-auto space-y-3 pb-4">
-		{#if messages.length === 0}
+		{#if messages.length === 0 && streamingContent === null}
 			<p class="text-sm text-gray-400">
 				Start the conversation — your Understudy will ask the questions.
 			</p>
@@ -81,10 +96,12 @@
 				</div>
 			</div>
 		{/each}
-		{#if pending}
+		{#if streamingContent !== null}
 			<div class="flex justify-start">
-				<div class="rounded-2xl rounded-bl-sm bg-gray-100 px-4 py-2 text-sm text-gray-400">
-					Thinking…
+				<div
+					class="max-w-[85%] rounded-2xl rounded-bl-sm bg-gray-100 px-4 py-2 text-sm leading-relaxed whitespace-pre-wrap text-gray-900"
+				>
+					{streamingContent || '…'}
 				</div>
 			</div>
 		{/if}
