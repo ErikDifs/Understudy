@@ -8,9 +8,14 @@
 <div class="mx-auto max-w-2xl p-6">
 	<div class="flex items-center justify-between">
 		<h1 class="text-2xl font-semibold">Meetings</h1>
-		<a href={resolve('/meetings/new')} class="rounded bg-black px-3 py-2 text-sm text-white">
-			Send my understudy
-		</a>
+		<div class="flex gap-2">
+			<a href={resolve('/profile')} class="rounded border px-3 py-2 text-sm">
+				My profile
+			</a>
+			<a href={resolve('/meetings/new')} class="rounded bg-black px-3 py-2 text-sm text-white">
+				Send my understudy
+			</a>
+		</div>
 	</div>
 
 	<ul class="mt-6 space-y-2">

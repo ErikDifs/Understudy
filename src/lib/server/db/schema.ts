@@ -1,5 +1,7 @@
 import { pgTable, pgEnum, serial, integer, text, real, timestamp } from 'drizzle-orm/pg-core';
 
+export const intakeMessageRole = pgEnum('intake_message_role', ['user', 'assistant']);
+
 export const meetingStatus = pgEnum('meeting_status', [
 	'bot_joining',
 	'in_progress',
@@ -27,6 +29,13 @@ export const transcriptSegments = pgTable('transcript_segments', {
 	speaker: text('speaker'),
 	text: text('text').notNull(),
 	relativeStart: real('relative_start'),
+	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+});
+
+export const intakeMessages = pgTable('intake_messages', {
+	id: serial('id').primaryKey(),
+	role: intakeMessageRole('role').notNull(),
+	content: text('content').notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
 });
 
