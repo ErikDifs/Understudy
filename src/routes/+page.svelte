@@ -5,14 +5,20 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<div class="mx-auto max-w-2xl p-6">
+<div class="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
 	<div class="flex items-center justify-between">
-		<h1 class="text-2xl font-semibold">Meetings</h1>
+		<h1 class="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">Meetings</h1>
 		<div class="flex gap-2">
-			<a href={resolve('/profile')} class="rounded border px-3 py-2 text-sm">
+			<a
+				href={resolve('/profile')}
+				class="rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-900 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-800"
+			>
 				My profile
 			</a>
-			<a href={resolve('/meetings/new')} class="rounded bg-black px-3 py-2 text-sm text-white">
+			<a
+				href={resolve('/meetings/new')}
+				class="rounded-lg bg-zinc-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+			>
 				Send my understudy
 			</a>
 		</div>
@@ -20,15 +26,15 @@
 
 	<ul class="mt-6 space-y-2">
 		{#each data.meetings as meeting (meeting.id)}
-			<li class="rounded border p-3">
+			<li class="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800 dark:bg-zinc-900">
 				<a
 					href={resolve('/meetings/[id]', { id: String(meeting.id) })}
-					class="font-medium underline">{meeting.title}</a
-				>
-				<span class="ml-2 text-sm text-gray-500">{meeting.status}</span>
+					class="font-medium underline underline-offset-2 text-zinc-900 dark:text-zinc-100"
+				>{meeting.title}</a>
+				<span class="ml-2 text-sm text-zinc-500 dark:text-zinc-400">{meeting.status}</span>
 			</li>
 		{:else}
-			<li class="text-gray-500">No meetings yet.</li>
+			<li class="text-sm text-zinc-400 dark:text-zinc-600">No meetings yet.</li>
 		{/each}
 	</ul>
 </div>

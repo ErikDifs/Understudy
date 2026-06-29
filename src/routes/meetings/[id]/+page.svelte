@@ -5,30 +5,42 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<div class="mx-auto max-w-2xl p-6">
-	<a href={resolve('/')} class="text-sm text-blue-600 underline">&larr; All meetings</a>
+<div class="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
+	<a
+		href={resolve('/')}
+		class="text-sm text-zinc-500 underline underline-offset-2 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+	>&larr; All meetings</a>
 
-	<h1 class="mt-2 text-2xl font-semibold">{data.meeting.title}</h1>
-	<p class="text-sm text-gray-500">Status: {data.meeting.status}</p>
+	<h1 class="mt-2 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+		{data.meeting.title}
+	</h1>
+	<p class="text-sm text-zinc-500 dark:text-zinc-400">Status: {data.meeting.status}</p>
 
 	{#if data.meeting.instructions}
-		<p class="mt-2 text-sm italic">Instructions: {data.meeting.instructions}</p>
+		<p class="mt-2 text-sm italic text-zinc-600 dark:text-zinc-400">
+			Instructions: {data.meeting.instructions}
+		</p>
 	{/if}
 
 	{#if data.summary}
 		<section class="mt-6">
-			<h2 class="text-lg font-semibold">Summary</h2>
-			<p class="mt-2 whitespace-pre-wrap">{data.summary.content}</p>
+			<h2 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">Summary</h2>
+			<p class="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-zinc-900 dark:text-zinc-100">
+				{data.summary.content}
+			</p>
 		</section>
 	{/if}
 
 	<section class="mt-6">
-		<h2 class="text-lg font-semibold">Transcript</h2>
+		<h2 class="text-base font-semibold text-zinc-900 dark:text-zinc-100">Transcript</h2>
 		<ul class="mt-2 space-y-1 text-sm">
 			{#each data.transcript as segment (segment.id)}
-				<li><span class="font-medium">{segment.speaker ?? 'Unknown'}:</span> {segment.text}</li>
+				<li class="text-zinc-900 dark:text-zinc-100">
+					<span class="font-medium">{segment.speaker ?? 'Unknown'}:</span>
+					{segment.text}
+				</li>
 			{:else}
-				<li class="text-gray-500">No transcript yet.</li>
+				<li class="text-zinc-400 dark:text-zinc-600">No transcript yet.</li>
 			{/each}
 		</ul>
 	</section>
