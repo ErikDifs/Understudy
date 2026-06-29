@@ -41,7 +41,7 @@ System font stack (`font-sans` default) — no custom font until launch.
 
 ## Spacing & Layout
 
-- **Content width:** `max-w-2xl mx-auto` — consistent on every page
+- **Content width:** `max-w-5xl mx-auto` for list/form/detail pages; `max-w-2xl mx-auto` for the chat (Profile) page — chat UIs stay narrow by convention
 - **Page padding:** `px-4 py-6 sm:px-6 sm:py-8`
 - **Section gap:** `mt-6` between major sections
 - **List gap:** `space-y-2` for lists, `space-y-3` for chat messages, `space-y-4` for form fields

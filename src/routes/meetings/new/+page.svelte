@@ -5,7 +5,7 @@
 	let { form }: { form: ActionData } = $props();
 </script>
 
-<div class="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
+<div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
 	<a
 		href={resolve('/')}
 		class="text-sm text-zinc-500 underline underline-offset-2 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"

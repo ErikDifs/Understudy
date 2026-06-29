@@ -20,7 +20,7 @@
 </script>
 
 <nav class="border-b border-zinc-200 dark:border-zinc-800" aria-label="Main navigation">
-	<div class="mx-auto flex h-12 max-w-2xl items-center justify-between px-4 sm:px-6">
+	<div class="mx-auto flex h-12 max-w-5xl items-center justify-between px-4 sm:px-6">
 		<a
 			href="/"
 			class="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100"

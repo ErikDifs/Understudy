@@ -5,7 +5,7 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<div class="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
+<div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
 	<div class="flex items-center justify-between">
 		<h1 class="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">Meetings</h1>
 		<a
