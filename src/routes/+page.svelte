@@ -8,20 +8,12 @@
 <div class="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
 	<div class="flex items-center justify-between">
 		<h1 class="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">Meetings</h1>
-		<div class="flex gap-2">
-			<a
-				href={resolve('/profile')}
-				class="rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-900 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-800"
-			>
-				My profile
-			</a>
-			<a
-				href={resolve('/meetings/new')}
-				class="rounded-lg bg-zinc-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
-			>
-				Send my understudy
-			</a>
-		</div>
+		<a
+			href={resolve('/meetings/new')}
+			class="rounded-lg bg-zinc-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+		>
+			Send my understudy
+		</a>
 	</div>
 
 	<ul class="mt-6 space-y-2">

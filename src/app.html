@@ -5,6 +5,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="text-scale" content="scale" />
 		<meta name="color-scheme" content="light dark" />
+		<script>
+			(function () {
+				var stored = localStorage.getItem('theme');
+				var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				var dark = stored === 'dark' || (!stored && prefersDark);
+				if (dark) document.documentElement.classList.add('dark');
+				document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+			})();
+		</script>
 		%sveltekit.head%
 	</head>
 	<body class="bg-white dark:bg-zinc-950" data-sveltekit-preload-data="hover">
