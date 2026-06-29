@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import StatusBadge from '$lib/components/StatusBadge.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -23,10 +24,16 @@
 					href={resolve('/meetings/[id]', { id: String(meeting.id) })}
 					class="font-medium underline underline-offset-2 text-zinc-900 dark:text-zinc-100"
 				>{meeting.title}</a>
-				<span class="ml-2 text-sm text-zinc-500 dark:text-zinc-400">{meeting.status}</span>
+				<span class="ml-2"><StatusBadge status={meeting.status} /></span>
 			</li>
 		{:else}
-			<li class="text-sm text-zinc-400 dark:text-zinc-600">No meetings yet.</li>
+			<li class="py-10 text-center text-sm text-zinc-400 dark:text-zinc-600">
+				No meetings yet —
+				<a
+					href={resolve('/meetings/new')}
+					class="underline underline-offset-2 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+				>send your Understudy to one</a>.
+			</li>
 		{/each}
 	</ul>
 </div>

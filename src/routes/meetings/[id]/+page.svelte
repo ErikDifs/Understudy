@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import StatusBadge from '$lib/components/StatusBadge.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -14,7 +15,7 @@
 	<h1 class="mt-2 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
 		{data.meeting.title}
 	</h1>
-	<p class="text-sm text-zinc-500 dark:text-zinc-400">Status: {data.meeting.status}</p>
+	<div class="mt-1"><StatusBadge status={data.meeting.status} /></div>
 
 	{#if data.meeting.instructions}
 		<p class="mt-2 text-sm italic text-zinc-600 dark:text-zinc-400">

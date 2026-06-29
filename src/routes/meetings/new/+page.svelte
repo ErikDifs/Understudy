@@ -15,7 +15,7 @@
 		Send your understudy to a meeting
 	</h1>
 
-	<form method="POST" class="mt-6 space-y-4">
+	<form method="POST" class="mt-6 max-w-lg space-y-4">
 		<label class="block">
 			<span class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Title</span>
 			<input
